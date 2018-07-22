@@ -39,7 +39,7 @@ public class TestSigar {
             who();
             System.out.println("----------------------------------");
             // 文件系统信息
-            file();
+//            file();
             System.out.println("----------------------------------");
             // 网络信息
             net();
