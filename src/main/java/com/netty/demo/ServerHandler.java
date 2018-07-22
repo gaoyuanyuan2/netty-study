@@ -25,7 +25,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
 			System.out.println("Server :" + body );
 			String response = "进行返回给客户端的响应：" + body ;
 			ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
-			//.addListener(ChannelFutureListener.CLOSE);
+			//.addListener(ChannelFutureListener.CLOSE);//关闭长连接
 	}
 
 	@Override
