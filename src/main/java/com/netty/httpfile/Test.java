@@ -1,12 +1,12 @@
 package com.netty.httpfile;
 
+import com.utils.HttpCallerUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import bhz.utils.HttpCallerUtils;
-import bhz.utils.HttpProxy;
 
 public class Test {
 
