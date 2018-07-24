@@ -20,7 +20,7 @@ public class ServerHandler implements Runnable{
 		PrintWriter out = null;
 		try {
 			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-			out = new PrintWriter(this.socket.getOutputStream(), true);
+			out = new PrintWriter(this.socket.getOutputStream(), true);//这些流对象都派生于该套接字的流对象
 			String body = null;
 			while(true){
 				body = in.readLine();

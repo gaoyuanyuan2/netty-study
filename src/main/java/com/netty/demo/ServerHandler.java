@@ -14,7 +14,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
 		System.out.println("server channel active... ");
 	}
 
-
+	//并没有释放接受到的消息，这是因为当写入的时候Netty已经帮我们释放了
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
