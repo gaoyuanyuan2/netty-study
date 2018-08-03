@@ -5,6 +5,12 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
+/**
+ *  在NIO库中，所有数据都是用缓冲区处理的。在读取数据时，它是直接读到缓冲区中的;在写入数据时，写入到缓冲区中。
+ *  任何时候访问NIO中的数据，都是通过缓冲区进行操作。
+ */
+
+
 public class Client {
 
 	//需要一个Selector 
