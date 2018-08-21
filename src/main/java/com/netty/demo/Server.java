@@ -17,6 +17,22 @@ public class Server {
 	 * 如何知道多少个线程已经被使用，
 	 * 如何映射到已经创建的Channels上都需要依赖于EventLoopGroup的实现，
 	 * 并且可以通过构造函数来配置他们的关系。
+	 *
+	 *
+	 * *   在开始使用Netty开发TimeServer之前，先回顾一下 使用NIO进行服务端开发的步骤。
+	 * (1)创建ServerSocketChannel, 配置它为非阻塞模式;
+	 * (2)绑定监听，配置TCP参数，例如backlog大小;
+	 * (3)创建一个独立的l/O线程，用于轮询多路复用器Selector;
+	 * (4)创建Selector, 将之前创建的ServerSocketChannel 注册到Selector 上，监听SelectionKey.ACCEPT;
+	 * (5)启动1/O线程，在循环体中执行Selector. select()方法， 轮询就绪的Channel;
+	 * (6)当轮询到了处于就绪状态的Channel时，需要对其进行判断，如果是OP_ ACCEPT状态，说明是新的客户端接入，
+	 * 则调用ServerSocketChannel accept()方法接受新的客户端;
+	 * (7)设置新接入的客户端链路SocketChannel为非阻塞模式，配置其他的一-些TCP参数;
+	 * (8)将SocketChannel注册到Selector, 监听OP_ READ操作位;
+	 * (9)如果轮询的Channel为OP_READ,则说明SocketChannel中有新的就绪的数据包需要读取，则构造ByteBuffer对象，读取数据包:
+	 * ( 10)如果轮询的Channel为OP_ WRITE，说明还有数据没有发送完成，需要继续发送。
+	 *  一个简单的NIO服务端程序，如果我们直接使用JDK的NIO类库进行开发，竟然需要经过烦琐的十多步操作才能完成最基本的消息读取和发送，
+	 *  这也是我们要选择Netty等NIO框架的原因了，下面我们看看使用Netty是如何轻松搞定服务端开发的。
 	 */
 
 

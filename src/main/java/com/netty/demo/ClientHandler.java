@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.ReferenceCountUtil;
 
+//网络事件进行读写操作
 public class ClientHandler extends ChannelHandlerAdapter{
 
 
