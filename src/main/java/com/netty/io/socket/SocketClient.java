@@ -15,7 +15,7 @@ public class SocketClient {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer.println("客户端发送消息");
             while (true){
-                String str = reader.readLine();
+                String str = reader.readLine();//读一行
                 if(str==null){
                     break;
                 }
