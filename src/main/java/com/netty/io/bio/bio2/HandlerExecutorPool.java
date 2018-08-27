@@ -1,4 +1,4 @@
-package com.netty.io.bio2;
+package com.netty.io.bio.bio2;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
