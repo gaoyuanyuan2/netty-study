@@ -65,14 +65,14 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
             new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE); // Disk if size exceed
 
     private HttpPostRequestDecoder decoder;
-    
+
     static {
         DiskFileUpload.deleteOnExitTemporaryFile = true; // should delete file
-                                                         // on exit (in normal
-                                                         // exit)
+        // on exit (in normal
+        // exit)
         DiskFileUpload.baseDirectory = "D:" + File.separatorChar + "aa"; // system temp directory
         DiskAttribute.deleteOnExitTemporaryFile = true; // should delete file on
-                                                        // exit (in normal exit)
+        // exit (in normal exit)
         DiskAttribute.baseDirectory = "D:" + File.separatorChar + "aa"; // system temp directory
     }
 
@@ -123,8 +123,8 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 
             QueryStringDecoder decoderQuery = new QueryStringDecoder(request.uri());
             Map<String, List<String>> uriAttributes = decoderQuery.parameters();
-            for (Entry<String, List<String>> attr: uriAttributes.entrySet()) {
-                for (String attrVal: attr.getValue()) {
+            for (Entry<String, List<String>> attr : uriAttributes.entrySet()) {
+                for (String attrVal : attr.getValue()) {
                     responseContent.append("URI: " + attr.getKey() + '=' + attrVal + "\r\n");
                 }
             }
@@ -229,7 +229,7 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
             } catch (IOException e1) {
                 // Error while reading data from File, only print name and error
                 e1.printStackTrace();
-                
+
                 responseContent.append("\r\nBODY Attribute: " + attribute.getHttpDataType().name() + ": "
                         + attribute.getName() + " Error while reading value: " + e1.getMessage() + "\r\n");
                 return;
@@ -242,22 +242,22 @@ public class HttpUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
                         + attribute + "\r\n");
             }
         } else {
-        	responseContent.append("\r\n -----------start-------------" + "\r\n");
+            responseContent.append("\r\n -----------start-------------" + "\r\n");
             responseContent.append("\r\nBODY FileUpload: " + data.getHttpDataType().name() + ": " + data
                     + "\r\n");
             responseContent.append("\r\n ------------end------------" + "\r\n");
             if (data.getHttpDataType() == HttpDataType.FileUpload) {
                 FileUpload fileUpload = (FileUpload) data;
                 if (fileUpload.isCompleted()) {
-                	
-                	System.out.println("file name : " + fileUpload.getFilename());
-                	System.out.println("file length: " + fileUpload.length());
-                	System.out.println("file maxSize : " + fileUpload.getMaxSize());
-                	System.out.println("file path :" + fileUpload.getFile().getPath());
-                	System.out.println("file absolutepath :" + fileUpload.getFile().getAbsolutePath());
-                	System.out.println("parent path :" + fileUpload.getFile().getParentFile());
-                	
-                    if (fileUpload.length() < 1024*1024*10) {
+
+                    System.out.println("file name : " + fileUpload.getFilename());
+                    System.out.println("file length: " + fileUpload.length());
+                    System.out.println("file maxSize : " + fileUpload.getMaxSize());
+                    System.out.println("file path :" + fileUpload.getFile().getPath());
+                    System.out.println("file absolutepath :" + fileUpload.getFile().getAbsolutePath());
+                    System.out.println("parent path :" + fileUpload.getFile().getParentFile());
+
+                    if (fileUpload.length() < 1024 * 1024 * 10) {
                         responseContent.append("\tContent of file\r\n");
                         try {
                             //responseContent.append(fileUpload.getString(fileUpload.getCharset()));

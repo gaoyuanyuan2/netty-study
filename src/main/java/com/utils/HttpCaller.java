@@ -20,31 +20,41 @@ import java.util.Map.Entry;
  * <B>模块名称：</B>网络交互功能<BR>
  * <B>中文类名：</B>HTTP协议调用器<BR>
  * <B>概要说明：</B><BR>
- * 
+ *
  * @author 交通运输部规划研究院（邵彧）
  * @since 2013-7-18
  */
 public class HttpCaller {
 
-    /** 请求方法：获取（GET） */
+    /**
+     * 请求方法：获取（GET）
+     */
     public static final String REQUEST_METHOD_GET = "GET";
 
-    /** 请求方法：提交（POST） */
+    /**
+     * 请求方法：提交（POST）
+     */
     public static final String REQUEST_METHOD_POST = "POST";
 
-    /** 请求方法：发送（PUT） */
+    /**
+     * 请求方法：发送（PUT）
+     */
     public static final String REQUEST_METHOD_PUT = "PUT";
 
-    /** 请求方法：删除（DELETE） */
+    /**
+     * 请求方法：删除（DELETE）
+     */
     public static final String REQUEST_METHOD_DELETE = "DELETE";
 
-    /** HTTP协议调用器配置 */
+    /**
+     * HTTP协议调用器配置
+     */
     private HttpCallerConfig config;
 
     /**
      * <B>构造方法</B><BR>
-     * 
-     * @param url URL地址
+     *
+     * @param url    URL地址
      * @param method 请求方法
      */
     public HttpCaller(String url, String method) {
@@ -55,8 +65,8 @@ public class HttpCaller {
 
     /**
      * <B>构造方法</B><BR>
-     * 
-     * @param url URL地址
+     *
+     * @param url    URL地址
      * @param params 参数
      */
     public HttpCaller(String url, Map<String, String> params) {
@@ -68,8 +78,8 @@ public class HttpCaller {
 
     /**
      * <B>构造方法</B><BR>
-     * 
-     * @param url URL地址
+     *
+     * @param url    URL地址
      * @param method 请求方法
      * @param params 参数
      */
@@ -82,8 +92,8 @@ public class HttpCaller {
 
     /**
      * <B>构造方法</B><BR>
-     * 
-     * @param url URL地址
+     *
+     * @param url    URL地址
      * @param method 请求方法
      * @param params 参数
      */
@@ -94,10 +104,10 @@ public class HttpCaller {
         this.config.setStream(isStream);
         this.config.setParams(params);
     }
-    
+
     /**
      * <B>构造方法</B><BR>
-     * 
+     *
      * @param config 配置
      */
     public HttpCaller(HttpCallerConfig config) {
@@ -107,8 +117,8 @@ public class HttpCaller {
     /**
      * <B>方法名称：</B>请求<BR>
      * <B>概要说明：</B><BR>
+     *
      * @param <T>
-     * 
      * @return String 文本数据
      * @throws IOException 输入输出异常
      */
@@ -124,16 +134,16 @@ public class HttpCaller {
         conn.setUseCaches(false);
         conn.connect();
         write(conn);
-        if(this.config.isStream()){
-        	 return (T) readStream(conn);
+        if (this.config.isStream()) {
+            return (T) readStream(conn);
         }
         return (T) read(conn);
     }
-    
+
     /**
      * <B>方法名称：</B>读取<BR>
      * <B>概要说明：</B><BR>
-     * 
+     *
      * @param conn HTTP连接
      * @return String 文本数据
      * @throws IOException 输入输出异常
@@ -143,16 +153,15 @@ public class HttpCaller {
         ByteArrayOutputStream bos = null;
         try {
             is = conn.getInputStream();
-        	byte[] buf = new byte[this.config.getMaxBufferSize()];
-        	int num = -1;
-        	bos = new ByteArrayOutputStream();
-        	while((num = is.read(buf, 0 , buf.length)) != -1 ){
-        		bos.write(buf, 0, num);
-        	}
-        }
-        finally {
+            byte[] buf = new byte[this.config.getMaxBufferSize()];
+            int num = -1;
+            bos = new ByteArrayOutputStream();
+            while ((num = is.read(buf, 0, buf.length)) != -1) {
+                bos.write(buf, 0, num);
+            }
+        } finally {
             if (bos != null) {
-            	bos.close();
+                bos.close();
             }
             if (is != null) {
                 is.close();
@@ -160,10 +169,11 @@ public class HttpCaller {
         }
         return bos.toByteArray();
     }
+
     /**
      * <B>方法名称：</B>读取<BR>
      * <B>概要说明：</B><BR>
-     * 
+     *
      * @param conn HTTP连接
      * @return String 文本数据
      * @throws IOException 输入输出异常
@@ -180,8 +190,7 @@ public class HttpCaller {
             while ((c = reader.read(buffer)) >= 0) {
                 str.append(buffer, 0, c);
             }
-        }
-        finally {
+        } finally {
             if (reader != null) {
                 reader.close();
             }
@@ -198,7 +207,7 @@ public class HttpCaller {
     /**
      * <B>方法名称：</B>写入<BR>
      * <B>概要说明：</B><BR>
-     * 
+     *
      * @param conn HTTP连接
      * @throws IOException 输入输出异常
      */
@@ -220,8 +229,7 @@ public class HttpCaller {
                     writer.write(param.getValue());
                 }
             }
-        }
-        finally {
+        } finally {
             if (writer != null) {
                 writer.close();
             }

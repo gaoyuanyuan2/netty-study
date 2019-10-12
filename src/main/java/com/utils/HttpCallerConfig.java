@@ -11,54 +11,80 @@ import java.util.Map;
  * <B>模块名称：</B>网络交互功能<BR>
  * <B>中文类名：</B>HTTP协议调用器配置<BR>
  * <B>概要说明：</B><BR>
- * 
+ *
  * @author 交通运输部规划研究院（邵彧）
  * @since 2013-7-18
  */
 public class HttpCallerConfig implements Serializable {
 
-    /** 默认版本唯一标识 */
+    /**
+     * 默认版本唯一标识
+     */
     private static final long serialVersionUID = 1L;
 
-    /** 默认配置：字符集 */
+    /**
+     * 默认配置：字符集
+     */
     public static final String DEFAULT_CONFIG_CHARSET = "UTF-8";
 
-    /** 默认配置：连接超时（毫秒） */
+    /**
+     * 默认配置：连接超时（毫秒）
+     */
     public static final int DEFAULT_CONFIG_CONN_TIMEOUT = 30000;
 
-    /** 默认配置：读取超时（毫秒） */
+    /**
+     * 默认配置：读取超时（毫秒）
+     */
     public static final int DEFAULT_CONFIG_READ_TIMEOUT = 30000;
 
-    /** 默认配置：最大缓冲大小（字符/字节数） */
+    /**
+     * 默认配置：最大缓冲大小（字符/字节数）
+     */
     public static final int DEFAULT_CONFIG_MAX_BUFFER_SIZE = 500;
 
-    /** URL地址 */
+    /**
+     * URL地址
+     */
     private String url;
 
-    /** 请求方法 */
+    /**
+     * 请求方法
+     */
     private String method;
 
-    /** 字符集 */
+    /**
+     * 字符集
+     */
     private String charset = DEFAULT_CONFIG_CHARSET;
 
-    /** 连接超时（毫秒） */
+    /**
+     * 连接超时（毫秒）
+     */
     private int connTimeout = DEFAULT_CONFIG_CONN_TIMEOUT;
 
-    /** 读取超时（毫秒） */
+    /**
+     * 读取超时（毫秒）
+     */
     private int readTimeout = DEFAULT_CONFIG_READ_TIMEOUT;
 
-    /** 最大缓冲大小（字符数） */
+    /**
+     * 最大缓冲大小（字符数）
+     */
     private int maxBufferSize = DEFAULT_CONFIG_MAX_BUFFER_SIZE;
 
-    /** 参数 */
+    /**
+     * 参数
+     */
     private Map<String, String> params;
-    
-    /** 是否获取为流数据信息 */
-    private boolean isStream ;
+
+    /**
+     * 是否获取为流数据信息
+     */
+    private boolean isStream;
 
     /**
      * <B>取得：</B>URL地址<BR>
-     * 
+     *
      * @return String URL地址
      */
     public String getUrl() {
@@ -67,7 +93,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>URL地址<BR>
-     * 
+     *
      * @param url URL地址
      */
     public void setUrl(String url) {
@@ -76,7 +102,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>请求方法<BR>
-     * 
+     *
      * @return String 请求方法
      */
     public String getMethod() {
@@ -85,7 +111,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>请求方法<BR>
-     * 
+     *
      * @param method 请求方法
      */
     public void setMethod(String method) {
@@ -94,7 +120,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>字符集<BR>
-     * 
+     *
      * @return String 字符集
      */
     public String getCharset() {
@@ -103,7 +129,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>字符集<BR>
-     * 
+     *
      * @param charset 字符集
      */
     public void setCharset(String charset) {
@@ -112,7 +138,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>连接超时（毫秒）<BR>
-     * 
+     *
      * @return int 连接超时（毫秒）
      */
     public int getConnTimeout() {
@@ -121,7 +147,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>连接超时（毫秒）<BR>
-     * 
+     *
      * @param connTimeout 连接超时（毫秒）
      */
     public void setConnTimeout(int connTimeout) {
@@ -130,7 +156,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>读取超时（毫秒）<BR>
-     * 
+     *
      * @return int 读取超时（毫秒）
      */
     public int getReadTimeout() {
@@ -139,7 +165,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>读取超时（毫秒）<BR>
-     * 
+     *
      * @param readTimeout 读取超时（毫秒）
      */
     public void setReadTimeout(int readTimeout) {
@@ -148,7 +174,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>最大缓冲大小（字符/字节数）<BR>
-     * 
+     *
      * @return int 最大缓冲大小（字符/字节数）
      */
     public int getMaxBufferSize() {
@@ -157,7 +183,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>最大缓冲大小（字符数）<BR>
-     * 
+     *
      * @param maxBufferSize 最大缓冲大小（字符/字节数）
      */
     public void setMaxBufferSize(int maxBufferSize) {
@@ -166,7 +192,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>取得：</B>参数<BR>
-     * 
+     *
      * @return Map<String, String> 参数
      */
     public Map<String, String> getParams() {
@@ -175,7 +201,7 @@ public class HttpCallerConfig implements Serializable {
 
     /**
      * <B>设定：</B>参数<BR>
-     * 
+     *
      * @param params 参数
      */
     public void setParams(Map<String, String> params) {
@@ -183,17 +209,17 @@ public class HttpCallerConfig implements Serializable {
     }
 
     public boolean isStream() {
-		return isStream;
-	}
+        return isStream;
+    }
 
-	public void setStream(boolean isStream) {
-		this.isStream = isStream;
-	}
+    public void setStream(boolean isStream) {
+        this.isStream = isStream;
+    }
 
-	/**
+    /**
      * <B>方法名称：</B>生成文本<BR>
      * <B>概要说明：</B><BR>
-     * 
+     *
      * @return String 文本
      * @see Object#toString()
      */

@@ -15,7 +15,8 @@ public class SocketServer {
                 new Thread(() -> {
                     try {
                         PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedReader bufferedReader =
+                                new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         while (true) {
                             String str = bufferedReader.readLine();
                             if (str == null) {

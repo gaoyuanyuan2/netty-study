@@ -8,18 +8,18 @@ import java.net.Socket;
 
 public class SocketClient {
     public static void main(String[] args) {
-        Socket socket =null;
+        Socket socket = null;
         try {
-            socket = new Socket("localhost",8123);
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()),true);
+            socket = new Socket("localhost", 8123);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer.println("客户端发送消息");
-            while (true){
+            while (true) {
                 String str = reader.readLine();//读一行
-                if(str==null){
+                if (str == null) {
                     break;
                 }
-                System.out.println("客户端接收消息："+str);
+                System.out.println("客户端接收消息：" + str);
             }
             writer.close();
             reader.close();
