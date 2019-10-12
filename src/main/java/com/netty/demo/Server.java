@@ -26,7 +26,7 @@ public class Server {
      * (5)启动1/O线程，在循环体中执行Selector. select()方法， 轮询就绪的Channel;
      * (6)当轮询到了处于就绪状态的Channel时，需要对其进行判断，如果是OP_ ACCEPT状态，说明是新的客户端接入，
      * 则调用ServerSocketChannel accept()方法接受新的客户端;
-     * (7)设置新接入的客户端链路SocketChannel为非阻塞模式，配置其他的一-些TCP参数;
+     * (7)设置新接入的客户端链路SocketChannel为非阻塞模式，配置其他的一些TCP参数;
      * (8)将SocketChannel注册到Selector, 监听OP_ READ操作位;
      * (9)如果轮询的Channel为OP_READ,则说明SocketChannel中有新的就绪的数据包需要读取，则构造ByteBuffer对象，读取数据包:
      * ( 10)如果轮询的Channel为OP_ WRITE，说明还有数据没有发送完成，需要继续发送。
