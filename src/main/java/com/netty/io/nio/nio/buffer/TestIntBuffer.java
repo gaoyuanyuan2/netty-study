@@ -30,5 +30,6 @@ public class TestIntBuffer {
             int j = buffer.get();
             System.out.print(j + "  ");
         }
+        buffer.clear();
     }
 }

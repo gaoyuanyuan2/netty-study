@@ -9,7 +9,7 @@ public class BufferProgram {
     public static void main(String args[]) throws Exception {
 
         //这用用的是文件IO处理
-        FileInputStream fin = new FileInputStream("E:/GP_WORKSPACE/test.txt");
+        FileInputStream fin = new FileInputStream("C:\\Users\\wufeng\\Desktop\\1.txt");
         //创建文件的操作管道
         FileChannel fc = fin.getChannel();
 
