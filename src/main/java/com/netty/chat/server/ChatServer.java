@@ -41,7 +41,7 @@ public class ChatServer{
 	                	pipeline.addLast(new IMEncoder());
 	                	pipeline.addLast(new SocketHandler());
 	                
-	                	/** 解析Http请求 */
+	                	/** 解析Http请求  静态资源 */
 	            		pipeline.addLast(new HttpServerCodec());
 	            		//主要是将同一个http请求或响应的多个消息对象变成一个 fullHttpRequest完整的消息对象
 	            		pipeline.addLast(new HttpObjectAggregator(64 * 1024));
