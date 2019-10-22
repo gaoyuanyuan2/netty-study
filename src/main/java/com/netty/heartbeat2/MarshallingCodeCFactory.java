@@ -1,4 +1,4 @@
-package com.netty.heartbeat;
+package com.netty.heartbeat2;
 
 import io.netty.handler.codec.marshalling.DefaultMarshallerProvider;
 import io.netty.handler.codec.marshalling.DefaultUnmarshallerProvider;
