@@ -36,8 +36,7 @@ public class HttpFileServer {
                             // 加入chunked 主要作用是支持异步发送的码流（大文件传输），但不专用过多的内存，防止java内存溢出
                             ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
                             // 加入自定义处理文件服务器的业务逻辑handler
-                            ch.pipeline().addLast("fileServerHandler",
-                                    new HttpFileServerHandler(url));
+                            ch.pipeline().addLast("fileServerHandler",new HttpFileServerHandler(url));
                         }
                     });
             ChannelFuture future = b.bind("192.168.1.200", port).sync();
