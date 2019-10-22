@@ -16,6 +16,7 @@ import static io.netty.handler.codec.http.HttpVersion.*;
 
 
 public class HttpHelloWorldServerHandler extends ChannelHandlerAdapter {
+
     private static final byte[] CONTENT = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'};
 
     @Override
