@@ -27,19 +27,19 @@ public class GPTomcat {
                     //子线程处理类
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         public void initChannel(SocketChannel ch) throws Exception {
-                            //服务端发送的是httpResponse，所以要使用HttpResponseEncoder进行编码  
+                            //服务端发送的是httpResponse，所以要使用HttpResponseEncoder进行编码
                             ch.pipeline().addLast(new HttpResponseEncoder());
-                            //服务端接收到的是httpRequest，所以要使用HttpRequestDecoder进行解码  
+                            //服务端接收到的是httpRequest，所以要使用HttpRequestDecoder进行解码
                             ch.pipeline().addLast(new HttpRequestDecoder());
                             //最后处理自己的逻辑
-                            ch.pipeline().addLast(new GPTomcatHandler());  
-                        }  
+                            ch.pipeline().addLast(new GPTomcatHandler());
+                        }
                      })
                     //主线程配置（最大数量）
                     .option(ChannelOption.SO_BACKLOG, 128)
                     //子线程配置（长连接）
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-            
+
             //绑定服务端口（阻塞）
             ChannelFuture f = b.bind(port).sync();
             

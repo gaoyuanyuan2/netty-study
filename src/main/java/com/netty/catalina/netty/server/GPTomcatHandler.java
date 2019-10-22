@@ -5,8 +5,8 @@ import com.netty.catalina.config.CustomConfig;
 import com.netty.catalina.http.GPRequest;
 import com.netty.catalina.http.GPResponse;
 import com.netty.catalina.http.GPServlet;
+import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
 import org.apache.log4j.Logger;
 
@@ -15,7 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-public class GPTomcatHandler extends ChannelInboundHandlerAdapter {
+public class GPTomcatHandler extends ChannelHandlerAdapter
+{
 
 	private Logger LOG = Logger.getLogger(GPTomcatHandler.class);
 	
@@ -47,7 +48,7 @@ public class GPTomcatHandler extends ChannelInboundHandlerAdapter {
 		}
     }
   
-    @Override  
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpRequest) {
         		HttpRequest r = (HttpRequest) msg;
@@ -55,12 +56,12 @@ public class GPTomcatHandler extends ChannelInboundHandlerAdapter {
         		GPResponse response = new GPResponse(ctx,r);
             String uri = request.getUri();
             String method = request.getMethod();
-  
-            LOG.info(String.format("Uri:%s method %s", uri, method));  
-  
+
+            LOG.info(String.format("Uri:%s method %s", uri, method));
+
             boolean hasPattern = false;
             for (Entry<Pattern, Class<?>> entry : servletMapping.entrySet()) {
-            		if (entry.getKey().matcher(uri).matches()) {  
+            		if (entry.getKey().matcher(uri).matches()) {
 	            		GPServlet servlet = (GPServlet)entry.getValue().newInstance();
 	            		if("get".equalsIgnoreCase(method)){
 	            			servlet.doGet(request, response);
@@ -70,16 +71,16 @@ public class GPTomcatHandler extends ChannelInboundHandlerAdapter {
 	            		hasPattern = true;
                 }
 			}
-            
-            if(!hasPattern){  
-                String out = String.format("404 NotFound URL%s for method %s", uri,method);  
-                response.write(out,404);  
-                return;  
-            }  
-        }  
-    }  
-  
-    @Override  
+
+            if(!hasPattern){
+                String out = String.format("404 NotFound URL%s for method %s", uri,method);
+                response.write(out,404);
+                return;
+            }
+        }
+    }
+
+    @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();  
     }  
