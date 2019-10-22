@@ -1,4 +1,4 @@
-package com.netty.heartbeat;
+package com.netty.heartBeat;
 
 import java.io.Serializable;
 import java.util.HashMap;
