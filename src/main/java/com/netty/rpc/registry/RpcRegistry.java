@@ -1,5 +1,6 @@
 package com.netty.rpc.registry;
 
+import com.netty.heartbeat.MarshallingCodeCFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -45,8 +46,7 @@ public class RpcRegistry {
 					//处理序列化的解、编码器（JDK默认的序列化）
 					pipeline.addLast("encoder",new ObjectEncoder());
 					pipeline.addLast("decoder",new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
-					
-					
+
 					//自己的业务逻辑
 					pipeline.addLast(new RegistryHandler());
 					

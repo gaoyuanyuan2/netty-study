@@ -88,7 +88,7 @@ class MethodProxy implements InvocationHandler{
 					//处理的拆包、粘包的解、编码器
 					pipeline.addLast("frameDecoder",new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4,0,4));
 					pipeline.addLast("frameEncoder",new LengthFieldPrepender(4));
-					
+
 					//处理序列化的解、编码器（JDK默认的序列化）
 					pipeline.addLast("encoder",new ObjectEncoder());
 					pipeline.addLast("decoder",new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
