@@ -1,8 +1,11 @@
-package com.netty.study;
+package com.netty;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Created by yan on  24/10/2019.
+ */
 @SpringBootApplication
 public class NettyStudyApplication {
 
