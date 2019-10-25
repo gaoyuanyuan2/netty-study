@@ -77,6 +77,42 @@ $(document).ready(function(){
 		        alert("与服务器连接失败.");
 		    }
 		},
+
+		openImg:function() {
+			$("#btn_file").click();
+			if (!window.WebSocket) { return; }
+		},
+		//发送图片
+		sendImg:function() {
+			var obj = $("#btn_file");
+			var files = obj[0].files;
+			if (!window.WebSocket) { return; }
+			if (files && files.length) {
+				var file = files[0];
+				var fileType = file.type;
+				// 表示传递的是 图片
+				var dataType = 10;
+				if (!/^image/.test(fileType)) {
+					// 表示传递的是 非图片
+					dataType = 20;
+				}
+				var fileReader = new FileReader();
+				fileReader.readAsArrayBuffer(file);
+				fileReader.onload = function (e) {
+					// 获取到文件对象
+					var result = e.target.result;
+					// 创建一个 4个 字节的数组缓冲区
+					var arrayBuffer = new ArrayBuffer(4);
+					var dataView = new DataView(arrayBuffer);
+					// 从第0个字节开始，写一个 int 类型的数据(dataType)，占4个字节
+					dataView.setInt32(0, dataType);
+					// 组装成 blob 对象
+					var blob = new Blob([arrayBuffer, result]);
+					// 发送到 webSocket 服务器端
+					CHAT.socket.send(blob);
+				}
+			}
+		},
 		//发送鲜花
 		sendFlower:function(){
 			if (!window.WebSocket) { return; }
@@ -147,52 +183,70 @@ $(document).ready(function(){
 			};
 			//将消息添加到聊天面板
 			var appendToPanel = function(message){
-				var regx = /^\[(.*)\](\s\-\s(.*))?/g;
-				var group = '',label = "",content = "",cmd="",time=0,name="";
-				while(group = regx.exec(message)){
-					label = group[1];
-					content = group[3];
-				}
-				var labelArr = label.split("][");
-				cmd = labelArr[0];
-				time = labelArr[1];
-				name = labelArr[2];
-				
-				if(cmd == "SYSTEM"){
-					var total = labelArr[2];
-					$("#onlinecount").html("" + total);
-					addSystemTip(content);
-				}else if(cmd == "CHAT"){
-					var date = new Date(parseInt(time));
-					addSystemTip('<span class="time-label">' + date.format("hh:mm:ss") + '</span>');
-					var isme = (name == "you") ? true : false;
-			        var contentDiv = '<div>' + content + '</div>';
-			        var usernameDiv = '<span>' + name + '</span>';
+				if (typeof  message != "string") {
+					var result = message;
+					var flagReader = new FileReader();
+					flagReader.readAsArrayBuffer(result.slice(0, 4));
+					flagReader.onload = function (flag) {
+						if (new DataView(flag.target.result).getInt32(0) === 10) {
+							var imageReader = new FileReader();
+							imageReader.readAsDataURL(result.slice(4));
+							imageReader.onload = function (img) {
+								var imgHtml = "<img src='" + img.target.result + "' style='width: 100px;height: 100px;'>";
+								$("#onlinemsg").append(imgHtml.replace("data:application/octet-stream;", "data:image/png;") + "<br />");
+							}
+						} else {
+							alert("后端返回的是非图片类型数据，无法显示。");
+						}
+					}
+				} else {
+					var regx = /^\[(.*)\](\s\-\s(.*))?/g;
+					var group = '', label = "", content = "", cmd = "", time = 0, name = "";
+					while (group = regx.exec(message)) {
+						label = group[1];
+						content = group[3];
+					}
+					var labelArr = label.split("][");
+					cmd = labelArr[0];
+					time = labelArr[1];
+					name = labelArr[2];
 
-			        var section = document.createElement('section');
-			        if (isme) {
-			            section.className = 'user';
-			            section.innerHTML = contentDiv + usernameDiv;
-			        } else {
-			            section.className = 'service';
-			            section.innerHTML = usernameDiv + contentDiv;
-			        }
-			        $("#onlinemsg").append(section);
-				}else if(cmd == "FLOWER"){
-					addSystemTip(content);
-					//鲜花特效
-					$(document).snowfall('clear');
-					$(document).snowfall({
-						image:"/images/face/50.gif",
-						flakeCount:60,
-						minSize:20,
-						maxSize:40
-					});
-					window.flowerTimer = window.setTimeout(function(){
+					if (cmd == "SYSTEM") {
+						var total = labelArr[2];
+						$("#onlinecount").html("" + total);
+						addSystemTip(content);
+					} else if (cmd == "CHAT") {
+						var date = new Date(parseInt(time));
+						addSystemTip('<span class="time-label">' + date.format("hh:mm:ss") + '</span>');
+						var isme = (name == "you") ? true : false;
+						var contentDiv = '<div>' + content + '</div>';
+						var usernameDiv = '<span>' + name + '</span>';
+
+						var section = document.createElement('section');
+						if (isme) {
+							section.className = 'user';
+							section.innerHTML = contentDiv + usernameDiv;
+						} else {
+							section.className = 'service';
+							section.innerHTML = usernameDiv + contentDiv;
+						}
+						$("#onlinemsg").append(section);
+					} else if (cmd == "FLOWER") {
+						addSystemTip(content);
+						//鲜花特效
 						$(document).snowfall('clear');
-						window.clearTimeout(flowerTimer);
-					},5000);
-					
+						$(document).snowfall({
+							image: "/images/face/50.gif",
+							flakeCount: 60,
+							minSize: 20,
+							maxSize: 40
+						});
+						window.flowerTimer = window.setTimeout(function () {
+							$(document).snowfall('clear');
+							window.clearTimeout(flowerTimer);
+						}, 5000);
+
+					}
 				}
 				//有新的消息过来以后，自动切到最底部
 				CHAT.scrollToBottom();

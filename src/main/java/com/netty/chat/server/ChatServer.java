@@ -2,6 +2,7 @@ package com.netty.chat.server;
 
 import com.netty.chat.protocol.IMDecoder;
 import com.netty.chat.protocol.IMEncoder;
+import com.netty.chat.server.handler.BinaryWebSocketFrameHandler;
 import com.netty.chat.server.handler.HttpHandler;
 import com.netty.chat.server.handler.SocketHandler;
 import com.netty.chat.server.handler.WebSocktHandler;
@@ -32,27 +33,32 @@ public class ChatServer{
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
             .childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-	                
-                		ChannelPipeline pipeline = ch.pipeline();
-	                	
-	                	/** 解析自定义协议 */
-	                	pipeline.addLast(new IMDecoder());
-	                	pipeline.addLast(new IMEncoder());
-	                	pipeline.addLast(new SocketHandler());
-	                
-	                	/** 解析Http请求  静态资源 */
-	            		pipeline.addLast(new HttpServerCodec());
-	            		//主要是将同一个http请求或响应的多个消息对象变成一个 fullHttpRequest完整的消息对象
-	            		pipeline.addLast(new HttpObjectAggregator(64 * 1024));
-	            		//主要用于处理大数据流,比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的 ,加上这个handler我们就不用考虑这个问题了
-	            		pipeline.addLast(new ChunkedWriteHandler());
-	            		pipeline.addLast(new HttpHandler());
-	            		
-	            		/** 解析WebSocket请求 */
-	            		pipeline.addLast(new WebSocketServerProtocolHandler("/im"));
-	            		pipeline.addLast(new WebSocktHandler());
-            		
+                public void initChannel(SocketChannel ch) throws Exception
+                {
+
+                    ChannelPipeline pipeline = ch.pipeline();
+
+                    /** 解析自定义协议 */
+                    pipeline.addLast(new IMDecoder());
+                    pipeline.addLast(new IMEncoder());
+                    pipeline.addLast(new SocketHandler());
+
+                    /** 解析Http请求 静态资源 HttpRequestDecoder和HttpResponseEncoder的一个组合，针对http协议进行编解码 */
+                    pipeline.addLast(new HttpServerCodec());
+                    //主要是将同一个http请求或响应的多个消息对象变成一个 fullHttpRequest完整的消息对象（将HttpMessage和HttpContents聚合到一个完成的
+                    // FullHttpRequest或FullHttpResponse）
+                    pipeline.addLast(new HttpObjectAggregator(64 * 1024));
+                    //主要用于处理大数据流,比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的 ,加上这个handler我们就不用考虑这个问题了（分块向客户端写数据，防止发送大文件时导致内存溢出）
+                    pipeline.addLast(new ChunkedWriteHandler());
+                    pipeline.addLast(new HttpHandler());
+
+                    /** 解析WebSocket请求 */
+                    pipeline.addLast(new WebSocketServerProtocolHandler("/im",null, true, 1024*1024*50));
+                    pipeline.addLast(new WebSocktHandler());
+
+                    // 自定义处理器 - 处理 web socket 二进制消息
+                    pipeline.addLast(new BinaryWebSocketFrameHandler());
+
                 }
             }); 
             ChannelFuture f = b.bind(this.port).sync();
