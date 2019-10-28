@@ -10,12 +10,14 @@ import org.msgpack.MessagePack;
  */
 public class IMEncoder extends MessageToByteEncoder<IMMessage> {
 
+
 	@Override
 	protected void encode(ChannelHandlerContext ctx, IMMessage msg, ByteBuf out)
 			throws Exception {
 		out.writeBytes(new MessagePack().write(msg));
 	}
-	
+
+	//编码成字符串发给websocket客户端
 	public String encode(IMMessage msg){
 		if(null == msg){ return ""; }
 		String prex = "[" + msg.getCmd() + "]" + "[" + msg.getTime() + "]";

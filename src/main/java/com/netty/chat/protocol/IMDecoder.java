@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 自定义IM协议的编码器
+ * 自定义IM协议的解码器
  */
 public class IMDecoder extends ByteToMessageDecoder {
 
@@ -27,7 +27,7 @@ public class IMDecoder extends ByteToMessageDecoder {
 	        String content = new String(array,in.readerIndex(),length);
 	        
 	        //空消息不解析
-	        if(null == content || "".equals(content.trim())){
+	        if(!(null == content || "".equals(content.trim()))){
 	        	if(!IMP.isIMP(content)){
 	        		ctx.channel().pipeline().remove(this);
 	        		return;

@@ -83,4 +83,18 @@ public class IMMessage{
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "IMMessage{" +
+				"addr='" + addr + '\'' +
+				", cmd='" + cmd + '\'' +
+				", time=" + time +
+				", online=" + online +
+				", sender='" + sender + '\'' +
+				", receiver='" + receiver + '\'' +
+				", content='" + content + '\'' +
+				'}';
+	}
 }

@@ -29,7 +29,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         Channel client = ctx.channel();
-        LOG.info("Client:"+client.remoteAddress()+"异常");
+        System.out.println("Client:"+client.remoteAddress()+"异常");
         // 当出现异常就关闭连接
         cause.printStackTrace();
         ctx.close();

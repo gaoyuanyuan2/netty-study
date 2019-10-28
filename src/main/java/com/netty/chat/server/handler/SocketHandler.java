@@ -18,7 +18,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<IMMessage> {
     
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("服务端Handler创建...");
+        System.out.println("服务端Handler创建...");
         super.handlerAdded(ctx);
     }
     
@@ -26,12 +26,12 @@ public class SocketHandler extends SimpleChannelInboundHandler<IMMessage> {
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception { // (3)
 		Channel client = ctx.channel();
 		processor.logout(client);
-		LOG.info("Socket Client:" + processor.getNickName(client) + "离开");
+		System.out.println("Socket Client:" + processor.getNickName(client) + "离开");
 	}
     
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("channelInactive");
+        System.out.println("channelInactive");
         super.channelInactive(ctx);
     }
     /**
@@ -39,7 +39,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<IMMessage> {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOG.info("Socket Client: 有客户端连接："+ processor.getAddress(ctx.channel()));
+        System.out.println("Socket Client: 有客户端连接："+ processor.getAddress(ctx.channel()));
     }
 
 
@@ -48,7 +48,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<IMMessage> {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOG.info("Socket Client: 与客户端断开连接:"+cause.getMessage());
+        System.out.println("Socket Client: 与客户端断开连接:"+cause.getMessage());
         cause.printStackTrace();
         ctx.close();
     }

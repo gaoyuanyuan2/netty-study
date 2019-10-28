@@ -28,7 +28,7 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
     private void session() throws IOException {
     		new Thread(){
     			public void run(){
-    				LOG.info(nickName + ",你好，请在控制台输入消息内容");
+					System.out.println(nickName + ",你好，请在控制台输入消息内容");
     				IMMessage message = null;
     		        Scanner scanner = new Scanner(System.in);
     		        do{
@@ -55,7 +55,7 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
     		this.ctx = ctx;
         IMMessage message = new IMMessage(IMP.LOGIN.getName(),System.currentTimeMillis(),this.nickName);
         sendMsg(message);
-        LOG.info("成功连接服务器,已执行登录动作");
+        System.out.println("成功连接服务器,已执行登录动作");
         session();
     }
     /**
@@ -66,7 +66,7 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
      */
     private boolean sendMsg(IMMessage msg){
         ctx.channel().writeAndFlush(msg);
-        LOG.info("已发送至聊天面板,请继续输入");
+		System.out.println("已发送至聊天面板,请继续输入");
         return msg.getCmd().equals(IMP.LOGOUT) ? false : true;
     }
     /**
@@ -76,14 +76,14 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws IOException {
     	IMMessage m = (IMMessage)msg;
-    	LOG.info(m);
+    	System.out.println("receive："+m);
     }
     /**
      * 发生异常时调用
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-    	LOG.info("与服务器断开连接:"+cause.getMessage());
+    	System.out.println("与服务器断开连接:"+cause.getMessage());
         ctx.close();
     }
 }

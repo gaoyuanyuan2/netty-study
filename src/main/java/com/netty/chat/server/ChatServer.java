@@ -5,7 +5,7 @@ import com.netty.chat.protocol.IMEncoder;
 import com.netty.chat.server.handler.BinaryWebSocketFrameHandler;
 import com.netty.chat.server.handler.HttpHandler;
 import com.netty.chat.server.handler.SocketHandler;
-import com.netty.chat.server.handler.WebSocktHandler;
+import com.netty.chat.server.handler.WebSocketHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -54,7 +54,7 @@ public class ChatServer{
 
                     /** 解析WebSocket请求 */
                     pipeline.addLast(new WebSocketServerProtocolHandler("/im",null, true, 1024*1024*50));
-                    pipeline.addLast(new WebSocktHandler());
+                    pipeline.addLast(new WebSocketHandler());
 
                     // 自定义处理器 - 处理 web socket 二进制消息
                     pipeline.addLast(new BinaryWebSocketFrameHandler());
@@ -62,7 +62,7 @@ public class ChatServer{
                 }
             }); 
             ChannelFuture f = b.bind(this.port).sync();
-            LOG.info("服务已启动,监听端口" + this.port);
+            System.out.println("服务已启动,监听端口" + this.port);
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
